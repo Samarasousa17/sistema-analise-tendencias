@@ -26,7 +26,7 @@ def load_data(uploaded_file):
                 st.error(f"Formato de arquivo não suportado: {file_extension}")
                 return None
             
-            return data
+           return data
         except Exception as e:
             st.error(f"Erro ao carregar o arquivo: {str(e)}")
             return None
