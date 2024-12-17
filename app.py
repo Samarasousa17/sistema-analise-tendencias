@@ -12,18 +12,25 @@ st.title("Sistema de Análise de Tendências para Diagnóstico Organizacional em
 # Função para carregar dados
 @st.cache_data
 def load_data(uploaded_file):
-    if uploaded_file is not None:
-        # Obtém a extensão do arquivo
-        file_extension = uploaded_file.name.split('.')[-1].lower()
-        
-        # Lê o arquivo baseado na extensão
-        if file_extension == 'csv':
-            data = pd.read_csv(uploaded_file)
-        elif file_extension in ['xls', 'xlsx']:
-            data = pd.read_excel(uploaded_file)
-        else:
-            st.error(f"Formato de arquivo não suportado: {file_extension}")
+      if uploaded_file is not None:
+        try:
+            # Obtém a extensão do arquivo
+            file_extension = uploaded_file.name.split('.')[-1].lower()
+            
+            # Lê o arquivo baseado na extensão
+            if file_extension == 'csv':
+                data = pd.read_csv(uploaded_file)
+            elif file_extension in ['xls', 'xlsx']:
+                data = pd.read_excel(uploaded_file, engine='openpyxl')
+            else:
+                st.error(f"Formato de arquivo não suportado: {file_extension}")
+                return None
+            
+            return data
+        except Exception as e:
+            st.error(f"Erro ao carregar o arquivo: {str(e)}")
             return None
+    return None
         
         return data
     return None
